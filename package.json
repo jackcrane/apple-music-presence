@@ -6,7 +6,7 @@
   "bin": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg ./package.json --out-path build/",
+    "build": "modclean --run default:safe && pkg ./package.json --out-path build/ --targets node16-macos-x64 -C brotli && zip -r build/apple-music-presence.zip build/",
     "start": "node app.js"
   },
   "keywords": [],
