@@ -1,8 +1,8 @@
-<center>
+<h1 align="center">
 
-# Apple Music Presence
+Apple Music Presence
 
-</center>
+</h1>
 
 ![Build passing](https://img.shields.io/badge/build-passing-brightgreen)
 [![Bmac link](https://img.shields.io/badge/support-buy%20me%20a%20coffee-yellow)](https://buymeacoffee.com/jackcrane)
