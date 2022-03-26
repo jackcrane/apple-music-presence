@@ -1,0 +1,29 @@
+{
+  "name": "easy-presence",
+  "version": "1.2.0-oops1",
+  "description": "Discord rich presence, batteries included!",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rblxRP/easy-presence.git"
+  },
+  "keywords": [
+    "discord",
+    "ipc",
+    "rich-presence"
+  ],
+  "author": "rblxRP Developers",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/rblxRP/easy-presence/issues"
+  },
+  "homepage": "https://github.com/rblxRP/easy-presence#readme",
+  "devDependencies": {
+    "@types/node": "^16.6.2",
+    "@typescript-eslint/eslint-plugin": "^4.29.2"
+  }
+}

@@ -2,9 +2,12 @@
   "name": "apple-music-presence",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "bin": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pkg ./package.json --out-path build/",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +15,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.56.0",
     "applescript": "^1.0.0",
-    "dotenv": "^16.0.0",
-    "easy-presence": "^1.2.0-oops1"
+    "dotenv": "^16.0.0"
   }
 }

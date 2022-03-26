@@ -35,9 +35,9 @@ const ExecuteAppleScript = async () => {
             // s3up: upload,
             url:
               "https://jack-general.nyc3.digitaloceanspaces.com/apple-music-rich-presence/" +
-              songObj.name +
+              encodeURI(songObj.name.replaceAll("/", "")).slice(0, 100) +
               "-" +
-              songObj.artist +
+              encodeURI(songObj.artist.replaceAll("/", "")).slice(0, 100) +
               ".jpeg",
             song: songObj.name,
             artist: songObj.artist,

@@ -1,30 +1,42 @@
 const { ExecuteAppleScript } = require("./applescript");
 require("dotenv").config();
-const client = new (require("easy-presence").EasyPresence)(
+
+let connected = false;
+
+let client;
+let connectInterval = setInterval(() => {
+  console.log("🏋️‍♂️ Not connected, trying to connect...");
+  client = new (require("./easy-presence/build/index").EasyPresence)(
   process.env.DISCORD_KEY
 ); // replace this with your Discord Client ID.
 client.on("connected", () => {
-  console.log("Hello,", client.environment.user.username);
+    connected = true;
+    clearInterval(connectInterval);
+    console.log("📶 Discord connected!");
+    runTheRest();
 });
+}, 1000);
 
+const runTheRest = async () => {
 // This will be logged when the presence was sucessfully updated on Discord.
-client.on("activityUpdate", (activity) => {
-  console.log(activity);
-  console.log("Now you're playing", activity ? activity.name : "nothing!");
-});
+  client.on("activityUpdate", (activity) => {});
 
 let globalSongInfo = {};
 
 setInterval(async () => {
-  globalSongInfo = await ExecuteAppleScript();
+    const _globalSongInfo = await ExecuteAppleScript();
+    if (_globalSongInfo.song !== globalSongInfo.song) {
+      console.log(
+        "🎺 New Song! " + _globalSongInfo.song + " by " + _globalSongInfo.artist
+      );
+      globalSongInfo = _globalSongInfo;
+    }
 }, 1000);
 
-let url =
-  "https://jack-general.nyc3.cdn.digitaloceanspaces.com/apple-music-rich-presence/Follow%20You-Imagine%20Dragons.jpeg";
 setInterval(async () => {
-  // console.log(globalSongInfo);
   if (globalSongInfo.song) {
-    client.setActivity({
+      try {
+        await client.setActivity({
       details: globalSongInfo.song,
       state: globalSongInfo.artist + " | " + globalSongInfo.album,
       assets: {
@@ -32,5 +44,9 @@ setInterval(async () => {
         large_text: globalSongInfo.song,
       },
     });
+      } catch (err) {
+        console.log("🚨 Discord disconnected");
+      }
   }
 }, 1000);
+};

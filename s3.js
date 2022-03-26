@@ -7,14 +7,17 @@ const s3Client = new S3({
   region: "us-east-1",
   credentials: {
     accessKeyId: process.env.S3_ACCESS_KEY,
-    secretAccessKey: process.env.S3_ACCESS_SECRET,
+    secretAccessKey: process.env.S3_SECRET,
   },
 });
 
 const Upload = async ({ song, artist, body }) => {
   const BucketParams = {
     Bucket: "jack-general",
-    Key: `apple-music-rich-presence/${song}-${artist}.jpeg`,
+    Key: `apple-music-rich-presence/${encodeURI(song.replaceAll("/", "")).slice(
+      0,
+      100
+    )}-${encodeURI(artist.replaceAll("/", "")).slice(0, 100)}.jpeg`,
     Body: body,
     ContentEncoding: "base64",
     ContentType: "image/jpeg",
@@ -31,3 +34,17 @@ const Upload = async ({ song, artist, body }) => {
 };
 
 module.exports = { Upload };
+
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function (str, newStr) {
+    // If a regex pattern
+    if (
+      Object.prototype.toString.call(str).toLowerCase() === "[object regexp]"
+    ) {
+      return this.replace(str, newStr);
+    }
+
+    // If a string
+    return this.replace(new RegExp(str, "g"), newStr);
+  };
+}
