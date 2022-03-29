@@ -33,7 +33,13 @@ Unzip the folder.
 
 To run the program, simply right-click on `apple-music-presence` inside the unzipped folder and select 'Open'. MacOS will warn you that this is from an unidentified developer, and if you trust me, just click on 'Open'. If you don't trust me and know your way around code, you can build it yourself.
 
+There are 2 versions availible: the standard which runs on a one-second interval, and the lightweight version which runs every 20 seconds.
+
 If you want to, you can [add this program to your Mac's startup file](https://support.apple.com/guide/mac-help/open-items-automatically-when-you-log-in-mh15189/mac#:~:text=Add%20or%20remove,then%20click%20Add.).
+
+# Updating
+
+To update your app, download the latest release from the releases page, and replace the old version's binary with the new one. If you set it up to run at startup, ensure you have replaced the old app, but named the new one to exactly the same thing.
 
 # Building from source
 

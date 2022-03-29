@@ -12,7 +12,17 @@ var options = {
   headers: {},
 };
 request(options, function (error, response) {
-  if (error) throw new Error(error);
+  if (error) {
+    console.log(
+      chalk.red(
+        "Error vetching latest version number from GitHub. You are on version"
+      ),
+      chalk.yellow(version),
+      chalk.red(
+        ". Go to https://raw.githubusercontent.com/jackcrane/apple-music-presence/master/version.txt to see the latest version"
+      )
+    );
+  }
   if (response.body !== version) {
     console.log(
       chalk.red("🚨 Update available! Visit"),
