@@ -82,6 +82,7 @@ const runTheRest = async () => {
         chalk.yellow("https://www.buymeacoffee.com/jackcrane")
       );
       globalSongInfo = _globalSongInfo;
+      startTime = new Date()
     }
   }, 1000);
 
@@ -95,6 +96,17 @@ const runTheRest = async () => {
             large_image: encodeURI(globalSongInfo.url),
             large_text: globalSongInfo.song,
           },
+          buttons: [
+            {
+                label: "Search on Apple Music",
+                url: "https://music.apple.com/us/search?term="+encodeURI(globalSongInfo.song)
+            },
+            {
+                label: "Search on Spotify",
+                url: "https://open.spotify.com/search/"+encodeURI(globalSongInfo.song)
+            },
+          ],
+          timestamps: { start: startTime }
         });
       } catch (err) {
         console.log("🚨 Discord disconnected");
