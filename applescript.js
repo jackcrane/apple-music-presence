@@ -9,7 +9,7 @@ var script = `tell application "Music" to tell artwork 1 of current track
 return data
 end tell`;
 
-const ExecuteAppleScript = async () => {
+const ExecuteAppleScript = async (prev) => {
   return new Promise((resolve, reject) => {
     applescript.execString(script, function (err, artwork) {
       if (err) {
@@ -26,23 +26,35 @@ const ExecuteAppleScript = async () => {
               songObj[key] = value ? value.split('"').join("") : null;
             }
           });
-          const upload = await Upload({
-            song: songObj.name,
-            artist: songObj.artist,
-            body: artwork,
-          });
-          resolve({
-            // s3up: upload,
-            url:
-              "https://jack-general.nyc3.digitaloceanspaces.com/apple-music-rich-presence/" +
-              encodeURI(songObj.name.replaceAll("/", "")).slice(0, 100) +
-              "-" +
-              encodeURI(songObj.artist.replaceAll("/", "")).slice(0, 100) +
-              ".jpeg",
-            song: songObj.name,
-            artist: songObj.artist,
-            album: songObj.album,
-          });
+          if (JSON.stringify(song).includes(prev.song)) {
+            resolve(prev);
+          } else {
+            const upload = await Upload({
+              song: songObj.name,
+              artist: songObj.artist,
+              body: artwork,
+            });
+            if (upload.$metadata.httpStatusCode !== 200) {
+              console.log(
+                "Error uploading image",
+                upload.$metadata.httpStatusCode
+              );
+            } else {
+              console.log("Uploaded image");
+            }
+            resolve({
+              // s3up: upload,
+              url:
+                "https://jack-general.nyc3.digitaloceanspaces.com/apple-music-rich-presence/" +
+                encodeURI(songObj.name.replaceAll("/", "")).slice(0, 100) +
+                "-" +
+                encodeURI(songObj.artist.replaceAll("/", "")).slice(0, 100) +
+                ".jpeg",
+              song: songObj.name,
+              artist: songObj.artist,
+              album: songObj.album,
+            });
+          }
         }
       );
     });

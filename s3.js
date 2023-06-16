@@ -14,10 +14,12 @@ const s3Client = new S3({
 const Upload = async ({ song, artist, body }) => {
   const BucketParams = {
     Bucket: "jack-general",
-    Key: `apple-music-rich-presence/${encodeURI(song.replaceAll("/", "")).slice(
+    Key: `apple-music-rich-presence/TESTING--${encodeURI(
+      song.replaceAll("/", "")
+    ).slice(0, 100)}-${encodeURI(artist.replaceAll("/", "")).slice(
       0,
       100
-    )}-${encodeURI(artist.replaceAll("/", "")).slice(0, 100)}.jpeg`,
+    )}.jpeg`,
     Body: body,
     ContentEncoding: "base64",
     ContentType: "image/jpeg",

@@ -1,1 +1,5 @@
-module.exports = {};
+module.exports = {
+  DISCORD_KEY: "957068833305264188",
+  S3_ACCESS_KEY: "DO00B48GTMLFZLG42CB3",
+  S3_SECRET: "Ip7RbTr35qwTqGXvGPQSo/d1uVplJDYsWn/3cu1tu8k",
+};

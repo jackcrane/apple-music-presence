@@ -15,7 +15,7 @@ request(options, function (error, response) {
   if (error) {
     console.log(
       chalk.red(
-        "Error vetching latest version number from GitHub. You are on version"
+        "[amp] Error vetching latest version number from GitHub. You are on version"
       ),
       chalk.yellow(version),
       chalk.red(
@@ -25,7 +25,7 @@ request(options, function (error, response) {
   }
   if (response.body !== version) {
     console.log(
-      chalk.red("🚨 Update available! Visit"),
+      chalk.red("🚨 [amp] Update available! Visit"),
       chalk.green("https://github.com/jackcrane/apple-music-presence/"),
       chalk.red("to download the latest version.")
     );
@@ -43,7 +43,7 @@ open(
 const chalk = require("chalk");
 
 console.log(
-  "🎧 Starting up! This is a free, open source project, but donations are appreciated at",
+  "🎧 [amp] Starting up! This is a free, open source project, but donations are appreciated at",
   chalk.yellow("https://www.buymeacoffee.com/jackcrane")
 );
 
@@ -51,14 +51,14 @@ let connected = false;
 
 let client;
 let connectInterval = setInterval(() => {
-  console.log("🏋️‍♂️ Not connected, trying to connect...");
+  console.log("🏋️‍♂️ [discord] Not connected, trying to connect...");
   client = new (require("./easy-presence/build/index").EasyPresence)(
     process.env.DISCORD_KEY
   );
   client.on("connected", () => {
     connected = true;
     clearInterval(connectInterval);
-    console.log("📶 Discord connected!");
+    console.log("📶 [discord] Discord connected!");
     runTheRest();
   });
 }, 1000);
@@ -69,11 +69,12 @@ const runTheRest = async () => {
 
   let globalSongInfo = {};
 
+  let lastSong = "";
   setInterval(async () => {
-    const _globalSongInfo = await ExecuteAppleScript();
+    const _globalSongInfo = await ExecuteAppleScript(globalSongInfo);
     if (_globalSongInfo.song !== globalSongInfo.song) {
       console.log(
-        "🎺 New Song! " +
+        "🎺 [apple music] New Song! " +
           _globalSongInfo.song +
           " by " +
           _globalSongInfo.artist +
@@ -82,13 +83,14 @@ const runTheRest = async () => {
         chalk.yellow("https://www.buymeacoffee.com/jackcrane")
       );
       globalSongInfo = _globalSongInfo;
-      startTime = new Date()
+      startTime = new Date();
     }
   }, 1000);
 
   setInterval(async () => {
     if (globalSongInfo.song) {
       try {
+        // console.log(encodeURI(globalSongInfo.url));
         await client.setActivity({
           details: globalSongInfo.song,
           state: globalSongInfo.artist + " | " + globalSongInfo.album,
@@ -96,20 +98,11 @@ const runTheRest = async () => {
             large_image: encodeURI(globalSongInfo.url),
             large_text: globalSongInfo.song,
           },
-          buttons: [
-            {
-                label: "Search on Apple Music",
-                url: "https://music.apple.com/us/search?term="+encodeURI(globalSongInfo.song)
-            },
-            {
-                label: "Search on Spotify",
-                url: "https://open.spotify.com/search/"+encodeURI(globalSongInfo.song)
-            },
-          ],
-          timestamps: { start: startTime }
+          buttons: [],
+          timestamps: { start: startTime },
         });
       } catch (err) {
-        console.log("🚨 Discord disconnected");
+        console.log("🚨 [discord] Discord disconnected");
       }
     }
   }, 1000);
