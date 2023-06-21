@@ -1,3 +1,11 @@
+<h1>
+THIS PROJECT HAS REACHED END OF LIFE. IT HAS CRITICAL BUGS THAT RENDER THE PROJECT UNUSABLE. SUPPORT WILL NOT BE PROVIDED
+</h1>
+
+If you donated on BuyMeACoffee and would like a refund, reach out and that will be arranged.
+
+<hr />
+
 <h1 align="center">
 
 Apple Music Presence
